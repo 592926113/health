@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alibaba.health.dao.CheckGroupDao">
+   <insert id="add" parameterType="CheckGroup">
+       insert into t_checkgroup (code,name,helpCode,sex,remark,attention)
+        values ( #{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+   </insert>
+
+    <insert id="add_checkItemId">
+        insert into t_checkgroup_checkitem (checkgroup_id,checkitem_id) values (#{checkGroupId},#{checkItemId})
+    </insert>
+
+    <select id="findPage" parameterType="String" resultType="CheckGroup">
+        select * from t_checkgroup
+        <if test="value!=null and value.length>0">
+            where name like #{value} or code like #{value} or id like #{value}
+        </if>
+    </select>
+
+    <select id="findByid" parameterType="Integer" resultType="CheckGroup">
+        select * from t_checkgroup where id =#{id}
+    </select>
+
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="int" resultType="int">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id =#{id}
+    </select>
+
+    <update id="update" parameterType="CheckGroup">
+        update t_checkgroup set code=#{code},name=#{name},helpCode=#{helpCode},sex=#{sex},remark=#{remark},attention=#{attention}
+    </update>
+
+    <delete id="deleteCheckGroup_CheckItem_Re" parameterType="int">
+        delete  from t_checkgroup_checkitem where checkgroup_id =#{id}
+    </delete>
+
+    <insert id="addCheckGroup_CheckItem_Re">
+        insert into t_checkgroup_checkitem  (checkgroup_id , checkitem_id )values (#{checkGroupId},#{checkitemId})
+    </insert>
+</mapper>
+
