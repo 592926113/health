@@ -2,6 +2,7 @@ package com.alibaba.health.service;
 
 import com.alibaba.health.entity.PageResult;
 import com.alibaba.health.entity.QueryPageBean;
+import com.alibaba.health.exception.Myexception;
 import com.alibaba.health.pojo.CheckGroup;
 import com.alibaba.health.pojo.CheckItem;
 
@@ -23,4 +24,6 @@ public interface CheckGroupService {
     List<Integer> findCheckItemIdsByCheckGroupId(int id);
 
     void update(CheckGroup checkGroup, int[] checkitemIds);
+
+    void deleteById(int id) throws Myexception;
 }

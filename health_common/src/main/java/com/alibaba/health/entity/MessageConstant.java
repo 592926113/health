@@ -1,4 +1,4 @@
-package com.alibaba.entity;
+package com.alibaba.health.entity;
 
 /**
  * 消息常量

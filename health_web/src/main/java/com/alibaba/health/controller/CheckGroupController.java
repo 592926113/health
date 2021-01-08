@@ -77,4 +77,10 @@ public class CheckGroupController {
         return new Result(true,"查询成功");
     }
 
+    @RequestMapping("/deleteById")
+    public Result deleteById (@RequestParam("id") int id){
+        checkGroupService.deleteById(id);
+        return new Result(true,"删除成功");
+    }
+
 }

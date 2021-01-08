@@ -5,6 +5,7 @@ import com.alibaba.health.dao.CheckGroupDao;
 import com.alibaba.health.entity.PageResult;
 import com.alibaba.health.entity.QueryPageBean;
 import com.alibaba.health.entity.Result;
+import com.alibaba.health.exception.Myexception;
 import com.alibaba.health.pojo.CheckGroup;
 import com.alibaba.health.pojo.CheckItem;
 import com.alibaba.health.service.CheckGroupService;
@@ -78,5 +79,19 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         for (int checkitemId : checkitemIds) {
             checkGroupDao.addCheckGroup_CheckItem_Re(checkGroup.getId(),checkitemId);
         }
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(int id) throws Myexception{
+       Integer count= checkGroupDao.findt_setmeal_checkgroupByGId(id);
+        if(count>0){
+//            关联表有值
+            throw new Myexception("套餐和检查组有关联");
+        }
+        //        直接删除检查项和检查组中间表关联值
+        checkGroupDao.deleteCheckGroup_CheckItem_Re(id);
+//        没有值就能删除检查组
+        checkGroupDao.deleteById(id);
     }
 }
