@@ -23,11 +23,11 @@ import java.util.List;
  * @Version 1.0
  */
 public class QiniuUtils {
-    private static final String ACCESSKEY = "SFEru-GP4uAefw63aXiGPAZgjSnVsmyOmmfNxyD0F5SNaU";
-    private static final String SECRETKEY = "GP4uAefw63aXiGPAZgjSnVsmyOmmfNxyD0F5SNaU";
-    private static final String BUCKET = "sz98";
+    private static final String ACCESSKEY = "GP4uAefw63aXiGPAZgjSnVsmyOmmfNxyD0F5SNaU";
+    private static final String SECRETKEY = "1tj6OaBPVHtYSlU6V4XUElwK352DlV4mguEA5GMC";
+    private static final String BUCKET = "dalao-zou";
     public static final String DOMAIN= "http://qmld6x2e8.hn-bkt.clouddn.com/";
-
+                                      //http://qmld6x2e8.hn-bkt.clouddn.com/
 //    public static void main(String[] args) {
 //        //uploadFile("C:\\Users\\Eric\\Desktop\\file\\timg.jpg","dd2.jpg");
 //        //removeFiles("20190529083159.jpg","20190529083241.jpg");

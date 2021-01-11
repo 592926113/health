@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alibaba.health.dao.SetMealDao">
+    <!--添加套仓并获得自增id-->
+    <insert id="add" parameterType="SetMeal" keyProperty="id" useGeneratedKeys="true">
+        insert into t_setmeal (name,code,helpCode,sex,age,price,remark,attention,img)
+        values(  #{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+
+    <insert id="add_checkgroupIds">
+        insert into t_setmeal_checkgroup (setmeal_id,checkgroup_id) values(setmealId,checkgroupId)
+    </insert>
+
+    <select id="findPage" parameterType="String" resultType="setmeal">
+        select * from t_setmeal
+        <if test="value!=null and value.length>0">
+            where code like #{value} or name like #{value} or helpCode like #{value}
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int" resultType="setmeal">
+        select * from t_setmeal where id=#{id}
+    </select>
+
+    <select id="findAllImg" resultType="String">
+        select img from t_setmeal
+    </select>
+
+    <select id="findAll" resultType="setmeal">
+        select * from t_setmeal
+    </select>
+
+
+
+    <!--要设置别名才能映射，left join 没有后面没有from-->
+    <select id="findDetailById" resultMap="setmealMap" parameterType="int">
+        select ts.id,ts.img,ts.name,ts.remark,ts.sex,ts.age ,
+       tc.id checkgroup_id,tc.name checkgroup_name,tc.remark checkgroup_remark,
+       ti.id checkItem_id, ti.name checkItem_name
+        from t_setmeal ts
+        left join  t_setmeal_checkgroup tsc on setmeal_id =ts.id
+        left join  t_checkgroup tc on tsc.checkgroup_id =tc.id
+        left join  t_checkgroup_checkitem tcc on tc.id=tcc.checkgroup_id
+        left join  t_checkitem ti on ti.id=tcc.checkitem_id
+        where ts.id=#{id}
+    </select>
+    <resultMap id="setmealMap" type="setmeal">
+        <id property="id" column="id"></id>
+        <result property="img" column="img"></result>
+        <result property="name" column="name"></result>
+        <result property="remark" column="remark"></result>
+        <result property="sex" column="sex"></result>
+        <result property="age" column="age"></result>
+        <!--一对多 property:变量名，ofType：变量类型-->
+        <collection property="checkGroups" ofType="CheckGroup" >
+            <id column="checkgroup_id" property="id"></id>
+            <result column="checkgroup_name" property="name"></result>
+            <result column="checkgroup_remark" property="remark"></result>
+            <!--一对多 property:变量名，ofType：变量类型-->
+            <collection property="checkItems" ofType="CheckItem">
+                <id column="checkItem_id" property="id"></id>
+                <result column="checkItem_name" property="name"></result>
+            </collection>
+        </collection>
+    </resultMap>
+
+</mapper>
